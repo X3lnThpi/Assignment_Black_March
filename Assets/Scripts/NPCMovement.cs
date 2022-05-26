@@ -8,6 +8,8 @@ public class NPCMovement : MonoBehaviour
 
     public Queue<Vector2> wayPoints = new Queue<Vector2>();
 
+    
+
     private void Start()
     {
         StartCoroutine(CoroutineMoveTo());

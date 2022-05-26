@@ -237,10 +237,10 @@ public class RectGridViz : MonoBehaviour
 
     private void Update()
     {
-      
+        Display();
         if (Input.GetMouseButtonDown(0))
         {
-            Display();
+            
         }
 
         if (Input.GetMouseButtonDown(1))
