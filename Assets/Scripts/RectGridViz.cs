@@ -17,6 +17,10 @@ public class RectGridViz : MonoBehaviour
     //2D array of RectGridCell
     protected RectGridCell[,] rectGridCell;
 
+    //NPC
+    public Transform destination;
+    public NPCMovement npcMovement;
+
     protected void Construct(int row, int column)
     {
         this.row = row; 
@@ -26,14 +30,15 @@ public class RectGridViz : MonoBehaviour
         rectGridCellgameObjects = new GameObject[row, column];
         rectGridCell = new RectGridCell[row, column];
 
-       // RaycastHit hit;
+       
         for (int i = 0; i < row; ++i)
         {
             for(int j = 0; j < column; ++j)
             {
                 indices[i, j] = new Vector2Int(i, j);
-                rectGridCellgameObjects[i, j] = Instantiate(RectGridCell_prefab, new Vector3(i + offsetX, j + offsetY, 0.0f), Quaternion.identity);
+                rectGridCellgameObjects[i, j] = Instantiate(RectGridCell_prefab, new Vector3(i, j, 0.0f), Quaternion.identity);
 
+                //Set parent for the grid cell to this transform.
                 rectGridCellgameObjects[i, j].transform.SetParent(transform);
 
                 //Set proper names for generated cubes
@@ -171,24 +176,55 @@ public class RectGridViz : MonoBehaviour
         Vector2 rayPos = new Vector2(
          Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
          Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-        //
-        RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
-        Debug.Log("ray-hit" + " rayHit.transform.position");
-        Destroy(hit.transform.gameObject);
-
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 200f);
+        //Testing
+        RaycastHit hitx;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out hitx))
+        {
+            Debug.Log("Got hit");
+            GameObject objx = hitx.transform.gameObject;
+            RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
+            Debug.Log(objx.name);
+            Debug.Log(sc);
+        }
         if (hit)
         {
             GameObject obj = hit.transform.gameObject;
             RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
+            Debug.Log("hit");
             ToggleWalkable(sc);
         }
-        Debug.Log("Display method calling");
     }
 
     public void ToggleWalkable(RectGridCellViz sc)
     {
         Debug.Log("Changed");
+    }
+
+    //Set Destination
+    void RayCastAndSetDestination()
+    {
+        Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+        Debug.Log("Rt Click registered");
+        if (hit)
+        {
+            GameObject obj = hit.transform.gameObject;
+            RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
+            if(sc == null)
+            {
+                return;
+            }
+
+            Vector3 pos = destination.position;
+            pos.x = sc.rectGridCell.value.x;
+            pos.y = sc.rectGridCell.value.y;
+            destination.position = pos;
+
+            //Set the destination to the NPC
+            npcMovement.SetDestination(this, sc.rectGridCell);
+        }
     }
 
     private void Start()
@@ -199,13 +235,15 @@ public class RectGridViz : MonoBehaviour
 
     private void Update()
     {
-        //if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward * 300f))
-        //{
-        //    Debug.Log("hit");
-        //}
+      
         if (Input.GetMouseButtonDown(0))
         {
             Display();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            RayCastAndSetDestination();
         }
     }
 }

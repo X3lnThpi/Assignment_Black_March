@@ -16,6 +16,7 @@ public class RectGridCell : Node<Vector2Int>
         :base(value)
     {
         rectGridViz = gridMap;
+        isWalkable = true;
     }
     public override List<Node<Vector2Int>> GetNeighbours()
     {
