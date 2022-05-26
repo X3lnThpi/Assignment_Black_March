@@ -21,6 +21,5 @@ public class RectGridCell : Node<Vector2Int>
     public override List<Node<Vector2Int>> GetNeighbours()
     {
         return rectGridViz.GetNeighbourCells(this);
-        //throw new System.NotImplementedException();
     }
 }

@@ -186,45 +186,47 @@ public class RectGridViz : MonoBehaviour
             GameObject objx = hitx.transform.gameObject;
             RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
             Debug.Log(objx.name);
-            Debug.Log(sc);
+            //Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
         }
         if (hit)
         {
             GameObject obj = hit.transform.gameObject;
             RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
             Debug.Log("hit");
-            ToggleWalkable(sc);
+            //ToggleWalkable(sc);
         }
-    }
-
-    public void ToggleWalkable(RectGridCellViz sc)
-    {
-        Debug.Log("Changed");
     }
 
     //Set Destination
     void RayCastAndSetDestination()
     {
         Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
-        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
-        Debug.Log("Rt Click registered");
-        if (hit)
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 200f);
+        RaycastHit hitx;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hitx))
         {
-            GameObject obj = hit.transform.gameObject;
+            GameObject obj = hitx.transform.gameObject;
             RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
             if(sc == null)
             {
+                Debug.Log("sc == null");
                 return;
             }
-
+            Debug.Log("Rt Click registered");
             Vector3 pos = destination.position;
             pos.x = sc.rectGridCell.value.x;
             pos.y = sc.rectGridCell.value.y;
             destination.position = pos;
-
+            Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
             //Set the destination to the NPC
             npcMovement.SetDestination(this, sc.rectGridCell);
         }
+    }
+
+    public void ToggleWalkable(RectGridCellViz sc)
+    {
+        Debug.Log("Changed");
     }
 
     private void Start()
