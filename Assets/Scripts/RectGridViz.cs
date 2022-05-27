@@ -229,6 +229,31 @@ public class RectGridViz : MonoBehaviour
         Debug.Log("Changed");
     }
 
+    public static float GetManhattanCost(Vector2Int a, Vector2Int b)
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+    }
+
+    public static float GetEuclideanCost(Vector2Int a, Vector2Int b)
+    {
+        return GetCostBetweenTwoCells(a, b);
+    }
+
+    //Helper method that returns a RectGridCell based on row & Column values
+    public RectGridCell GetRectGridCell(int x, int y)
+    {
+        if(x >= 0 && x < row && y >= 0 && y < column)
+        {
+            return rectGridCell[x, y];
+        }
+        return null;
+    }
+
+    public static float GetCostBetweenTwoCells(Vector2Int a, Vector2Int b)
+    {
+        return Mathf.Sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+    }
+
     private void Start()
     {
         Construct(row, column);
