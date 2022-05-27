@@ -8,7 +8,7 @@ public class NPCMovement : MonoBehaviour
 
     public Queue<Vector2> wayPoints = new Queue<Vector2>();
 
-    
+    //PathFinder<Vector2Int> pathFinder = new AStar
 
     private void Start()
     {
