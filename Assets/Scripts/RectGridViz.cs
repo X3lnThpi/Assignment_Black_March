@@ -186,6 +186,7 @@ public class RectGridViz : MonoBehaviour
             GameObject objx = hitx.transform.gameObject;
             RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
             Debug.Log(objx.name);
+            //objx.GetComponent<Renderer>().material.color = Color.green;
             //Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
         }
         if (hit)
@@ -194,6 +195,27 @@ public class RectGridViz : MonoBehaviour
             RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
             Debug.Log("hit");
             //ToggleWalkable(sc);
+        }
+    }
+
+    public void ToggleWalkable()
+    {
+        Vector2 rayPos = new Vector2(
+        Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
+        Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 200f);
+        //Testing
+        RaycastHit hitx;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hitx))
+        {
+            Debug.Log("Got hit");
+            GameObject objx = hitx.transform.gameObject;
+            RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
+            Debug.Log(objx.name);
+            objx.GetComponent<Renderer>().material.color = Color.green;
+            bool tset = sc.rectGridCell.isWalkable = false;
+            Debug.Log(tset);
         }
     }
 
@@ -265,7 +287,7 @@ public class RectGridViz : MonoBehaviour
         Display();
         if (Input.GetMouseButtonDown(0))
         {
-            
+            ToggleWalkable();
         }
 
         if (Input.GetMouseButtonDown(1))
