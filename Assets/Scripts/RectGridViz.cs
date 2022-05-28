@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class RectGridViz : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class RectGridViz : MonoBehaviour
     //NPC
     public Transform destination;
     public NPCMovement npcMovement;
+    public TMP_Text address, status;
+    
 
     protected void Construct(int row, int column)
     {
@@ -186,6 +189,15 @@ public class RectGridViz : MonoBehaviour
             GameObject objx = hitx.transform.gameObject;
             RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
             Debug.Log(objx.name);
+            address.text = objx.name;
+            if (sc.rectGridCell.isWalkable)
+            {
+                status.text = "walkable";
+            }
+            if (!sc.rectGridCell.isWalkable)
+            {
+                status.text = "not walkable";
+            }
             //objx.GetComponent<Renderer>().material.color = Color.green;
             //Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
         }
@@ -193,7 +205,7 @@ public class RectGridViz : MonoBehaviour
         {
             GameObject obj = hit.transform.gameObject;
             RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
-            Debug.Log("hit");
+            //Debug.Log("hit");
             //ToggleWalkable(sc);
         }
     }
@@ -209,13 +221,13 @@ public class RectGridViz : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hitx))
         {
-            Debug.Log("Got hit");
+            //Debug.Log("Got hit");
             GameObject objx = hitx.transform.gameObject;
             RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
-            Debug.Log(objx.name);
+            //Debug.Log(objx.name);
             objx.GetComponent<Renderer>().material.color = Color.green;
             bool tset = sc.rectGridCell.isWalkable = false;
-            Debug.Log(tset);
+            //Debug.Log(tset);
         }
     }
 
