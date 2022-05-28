@@ -271,7 +271,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -295,7 +295,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 4, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -421,7 +421,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -68.6477, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -466,6 +466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 10
   column: 10
+  sphere: {fileID: 4358232908395779616, guid: 3b3183c8bb757bb449202f9cefb1c75c, type: 3}
   RectGridCell_prefab: {fileID: 5315894484692503214, guid: bfd182bd4f9cf74498c07fecd1bb6852, type: 3}
   offsetX: 0
   offsetY: 0
@@ -1097,13 +1098,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   column: 0
-  RectGridCell_prefab: {fileID: 0}
+  sphere: {fileID: 4358232908395779616, guid: 3b3183c8bb757bb449202f9cefb1c75c, type: 3}
+  RectGridCell_prefab: {fileID: 5315894484692503214, guid: bfd182bd4f9cf74498c07fecd1bb6852, type: 3}
   offsetX: 2
   offsetY: 2
   destination: {fileID: 1891426239}
   npcMovement: {fileID: 1696953746}
-  address: {fileID: 0}
-  status: {fileID: 0}
+  address: {fileID: 1343895123}
+  status: {fileID: 719826918}
 --- !u!114 &1891426238
 MonoBehaviour:
   m_ObjectHideFlags: 0

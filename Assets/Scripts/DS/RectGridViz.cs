@@ -5,7 +5,7 @@ using TMPro;
 
 public class RectGridViz : MonoBehaviour
 {
-    public int row, column;
+    public int row, column; public GameObject sphere;
 
     [SerializeField]
     GameObject RectGridCell_prefab;
@@ -55,10 +55,16 @@ public class RectGridViz : MonoBehaviour
                 if(rectGridCellViz != null)
                 {
                     rectGridCellViz.rectGridCell = rectGridCell[i, j];
+                   
                 }
             }
         }
         
+    }
+
+    public void GenerateObstacle(int x, int y)
+    {
+        Instantiate(sphere, new Vector3(x, y, 0.0f), Quaternion.identity);
     }
 
     void ResetCamera()
@@ -82,7 +88,7 @@ public class RectGridViz : MonoBehaviour
 
             if (rectGridCell[i, j].isWalkable)
             {
-                neighbours.Add(rectGridCell[i, j]); Debug.Log("Up Walkable");
+                neighbours.Add(rectGridCell[i, j]); //Debug.Log("Up Walkable");
             }
         }
 
@@ -180,15 +186,13 @@ public class RectGridViz : MonoBehaviour
          Camera.main.ScreenToWorldPoint(Input.mousePosition).x,
          Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 200f);
-        //Testing
         RaycastHit hitx;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out hitx))
         {
-            Debug.Log("Got hit");
+           /// Debug.Log("Got hit");
             GameObject objx = hitx.transform.gameObject;
             RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
-            Debug.Log(objx.name);
             address.text = objx.name;
             if (sc.rectGridCell.isWalkable)
             {
@@ -198,8 +202,6 @@ public class RectGridViz : MonoBehaviour
             {
                 status.text = "not walkable";
             }
-            //objx.GetComponent<Renderer>().material.color = Color.green;
-            //Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
         }
         if (hit)
         {
@@ -225,9 +227,10 @@ public class RectGridViz : MonoBehaviour
             GameObject objx = hitx.transform.gameObject;
             RectGridCellViz sc = objx.GetComponent<RectGridCellViz>();
             //Debug.Log(objx.name);
-            objx.GetComponent<Renderer>().material.color = Color.green;
+            objx.GetComponent<Renderer>().material.color = Color.red;
             bool tset = sc.rectGridCell.isWalkable = false;
-            //Debug.Log(tset);
+            Instantiate(sphere, new Vector3(objx.gameObject.transform.position.x, objx.gameObject.transform.position.y, 10f), Quaternion.identity);
+           
         }
     }
 
@@ -244,15 +247,15 @@ public class RectGridViz : MonoBehaviour
             RectGridCellViz sc = obj.GetComponent<RectGridCellViz>();
             if(sc == null)
             {
-                Debug.Log("sc == null");
+               // Debug.Log("sc == null");
                 return;
             }
-            Debug.Log("Rt Click registered");
+            //Debug.Log("Rt Click registered");
             Vector3 pos = destination.position;
             pos.x = sc.rectGridCell.value.x;
             pos.y = sc.rectGridCell.value.y;
             destination.position = pos;
-            Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
+            //Debug.Log("Walkable is " + sc.rectGridCell.isWalkable);
             //Set the destination to the NPC
             npcMovement.SetDestination(this, sc.rectGridCell);
         }
@@ -260,7 +263,7 @@ public class RectGridViz : MonoBehaviour
 
     public void ToggleWalkable(RectGridCellViz sc)
     {
-        Debug.Log("Changed");
+       // Debug.Log("Changed");
     }
 
     public static float GetManhattanCost(Vector2Int a, Vector2Int b)
